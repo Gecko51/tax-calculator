@@ -4,7 +4,13 @@
       "WebSearch",
       "Bash(npm:*)",
       "mcp__claude_ai_Context7__resolve-library-id",
-      "mcp__claude_ai_Context7__query-docs"
+      "mcp__claude_ai_Context7__query-docs",
+      "Bash(jq:*)",
+      "Bash(choco install:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(/c/Users/jalen/bin/jq.exe:*)",
+      "Bash(bash:*)"
     ]
   },
   "spinnerTipsEnabled": false

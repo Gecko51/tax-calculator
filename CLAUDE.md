@@ -29,6 +29,8 @@ All tax rates, thresholds, and constants for 2025–2026 live here. When fiscal 
 
 **State lives entirely in `App.jsx`.** All child components are stateless and receive props. The only exception is `ExpenseTracker`, which holds local form state for the current input row (not yet committed to the parent list).
 
+**`InfoPanel` is a static display component** — it has no props from result and never needs updating when calculation logic changes; only update it when fiscal rules change.
+
 **No routing, no state management library, no CSS framework.** See Dependencies section above.
 
 ## Styling
@@ -46,6 +48,7 @@ Locale `fr-FR`, devise EUR. Tous les labels et textes de l'UI sont en francais. 
 - `depensesTva` (array of expense objects) flows from `App` → `useTaxCalculator` → drives `tva.deductible`. TVA deduction is only computed when `tva_assujetti === true` (CA > seuil majoré).
 - The `result` object from `useTaxCalculator` is passed to both `TaxResults` and `TvaStatus`. Both components render `null`/empty state when `result` is `null`.
 - TVA status has three mutually exclusive states on `result.tva`: `franchise`, `tolerance`, `assujetti` — exactly one is `true` at any time.
+- The `year` state acts as a key to index into taxRates.js objects — e.g., `COTISATIONS_RATES[activityType][year]` — so all rate lookups are year-aware.
 
 ## Result object structure
 
@@ -64,6 +67,16 @@ Locale `fr-FR`, devise EUR. Tous les labels et textes de l'UI sont en francais. 
 | `tauxGlobalEffectif` | number | Taux effectif global (0-1) |
 
 **Helper interne :** `calculerIRProgressif(revenuImposable)` — applique le barème par tranches (`TRANCHES_IR` de `taxRates.js`). Non exportée, utilisée uniquement dans le hook pour le calcul différentiel (IR foyer avec CA − IR foyer sans CA).
+
+## Annual fiscal update (taxRates.js only)
+
+When updating for a new year, add an entry for that year in:
+- `COTISATIONS_RATES[activityType][year]`
+- `VERSEMENT_LIBERATOIRE_RATES[activityType][year]`
+- `CA_PLAFONDS[year]`
+- `TVA_SEUILS[year]`
+- Update `ACRE` end dates if needed
+- Update `year` selector options in `RevenueInput.jsx`
 
 ## Fiscal scope and known limitations
 

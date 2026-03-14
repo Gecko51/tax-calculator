@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useTaxCalculator } from './hooks/useTaxCalculator'
 import ActivitySelector from './components/ActivitySelector'
 import RevenueInput from './components/RevenueInput'
@@ -6,6 +6,7 @@ import TaxResults from './components/TaxResults'
 import TvaStatus from './components/TvaStatus'
 import ExpenseTracker from './components/ExpenseTracker'
 import InfoPanel from './components/InfoPanel'
+import DownloadPdfButton from './components/DownloadPdfButton'
 
 export default function App() {
   const [activityType, setActivityType] = useState(null)
@@ -16,6 +17,8 @@ export default function App() {
   const [autresRevenus, setAutresRevenus] = useState('')
   const [quotientFamilial, setQuotientFamilial] = useState(1)
   const [depensesTva, setDepensesTva] = useState([])
+
+  const mainRef = useRef(null)
 
   const result = useTaxCalculator({
     ca,
@@ -36,13 +39,16 @@ export default function App() {
             <h1 className="header-title">Simulateur Fiscal</h1>
             <p className="header-subtitle">Auto-Entrepreneur France — {year}</p>
           </div>
-          <div className="header-badge">
-            <span>Données {year} — URSSAF</span>
+          <div className="header-actions">
+            <DownloadPdfButton contentRef={mainRef} year={year} disabled={!result} />
+            <div className="header-badge">
+              <span>Données {year} — URSSAF</span>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="main">
+      <main className="main" ref={mainRef}>
         <div className="layout">
           <div className="col-left">
             <ActivitySelector value={activityType} onChange={setActivityType} />

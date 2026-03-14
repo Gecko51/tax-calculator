@@ -83,6 +83,36 @@ body {
   backdrop-filter: blur(4px);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-pdf {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius);
+  border: 1.5px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-pdf:hover:not(:disabled) {
+  background: rgba(255,255,255,0.28);
+  border-color: white;
+}
+.btn-pdf:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .main { flex: 1; padding: 2rem; }
 
 .layout {
